@@ -25,9 +25,9 @@ struct SearchView: View {
                 } //리스트의 스타일 수정
                 .listStyle(PlainListStyle())
                   //화면 터치시 키보드 숨김
-                .gesture(DragGesture().onChanged { _ in
-                    UIApplication.shared.endEditing(true)
-                })
+                .onTapGesture {
+                    hideKeyboard()
+                }
             }
             .navigationBarTitle("검색기능")
             .navigationBarItems(trailing:
@@ -60,3 +60,11 @@ extension UIApplication {
             .endEditing(force)
     }
 }
+
+#if canImport(UIKit)
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif
